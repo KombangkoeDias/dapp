@@ -1,0 +1,11 @@
+.linkItem {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.linkItem:hover {
+  border: 1px solid grey;
+}

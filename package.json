@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "concurrently --kill-others \"cd client && yarn start\" \"cd API && yarn start\""
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.1.0",
+    "concurrently": "^6.2.0"
+  }
+}

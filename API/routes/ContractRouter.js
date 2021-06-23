@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const LoadContractMiddleware = require("../instance");
 
+router.get("/instance", LoadContractMiddleware, function (req, res) {
+  res.json({ instance: req.instance.contract });
+});
+
 router.get("/address", LoadContractMiddleware, function (req, res) {
   res.json({ address: req.instance.contract.options.address });
 });
@@ -34,6 +38,19 @@ router.get("/info", LoadContractMiddleware, async function (req, res) {
   const symbol = await req.instance.symbol();
   res.json({ name: name, symbol: symbol });
 });
+
+router.get(
+  "/estimateGas/transfer",
+  LoadContractMiddleware,
+  async function (req, res) {
+    req.instance.estimateGas(
+      req.query.owner,
+      req.query.receiver,
+      req.query.amount
+    );
+    res.send({ status: "finished" });
+  }
+);
 
 router.post("/mint", LoadContractMiddleware, async function (req, res) {
   try {

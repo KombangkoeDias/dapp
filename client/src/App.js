@@ -80,8 +80,6 @@ function App() {
 
   useEffect(() => {
     if (currAccount !== null && chainid === 5777) {
-      Web3js.eth.defaultAccount = currAccount;
-      Web3js.eth.personal.unlockAccount(currAccount);
       loadTransaction();
     }
   }, [currAccount, chainid]);
@@ -172,7 +170,7 @@ function App() {
         if (coolDown) {
           console.log("some event happened");
           // await fetchBalance();
-          // await loadTransaction();
+          //await loadTransaction();
           setCoolDown(false);
           setTimeout(() => {
             setCoolDown(true);

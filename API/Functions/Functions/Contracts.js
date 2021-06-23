@@ -336,6 +336,34 @@ class Contract {
       this.handleError(err);
     }
   }
+
+  async buy(ethVal) {}
+
+  async sell(amount) {}
+
+  estimateGas(owner, receiver, amount) {
+    const gas_price = 15;
+    const theClass = this;
+    this.contract.methods.transfer(receiver, this.toWei(amount)).estimateGas(
+      { from: owner, gasPrice: gas_price }, // the gas_price is in gwei (gigawei unit).
+      function (err, estimateGas) {
+        if (!err) {
+          console.log(
+            "The Estimate Gas is " +
+              estimateGas +
+              " so the total amount of gas is " +
+              estimateGas * gas_price +
+              " wei or",
+            theClass.fromWei(
+              (estimateGas * gas_price * Math.pow(10, 9)).toString()
+            ) + " ETH"
+          );
+        } else {
+          console.log(err);
+        }
+      }
+    );
+  }
 }
 
 module.exports = { Contract: Contract };

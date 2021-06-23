@@ -1,17 +1,19 @@
 const Accounts = require("./Functions/Accounts");
 const Contracts = require("./Functions/Contracts");
 const WINcoin = require("./Contracts/Wincoin");
+const WINcoinUp = require("./Contracts/WincoinUp");
 const Web3 = require("./Functions/Web3");
 
 const adminAddress = "0xD0235585d6C6BAE00B14bA249445a41CB589765d";
 const anotherAddress = "0xee6414C8a8DE5cdc6fb3000BD6cBcE320017F399";
 let deployedAddress = "0x6400bE5392B82Aabd9845FBDB37C28A8703A553D";
 
-async function createContract() {
-  let account = adminAddress;
+let deployedUpAddress = "0x078a14C5555C052c668737Bdf793f24a250F77e0";
+
+async function createContract(abi, bytecode, account) {
   let contract = new Contracts.Contract({
-    abi: WINcoin.abi,
-    bytecode: WINcoin.bytecode,
+    abi: abi,
+    bytecode: bytecode,
     account: account,
   });
   await contract.deployContract();
@@ -25,7 +27,9 @@ async function loadContract(abi, address) {
 }
 
 async function test() {
-  const instance = await createContract();
+  const instance = await loadContract(WINcoinUp.abi, deployedUpAddress);
+
+  console.log(instance.address);
 
   // let name = await instance.name();
   // console.assert(name === "Sakon");
@@ -93,7 +97,7 @@ async function test() {
   // console.assert(allowance === 50000);
 }
 
-// test();
+test();
 
 // createContract();
 // mint(anotherAddress, 10);

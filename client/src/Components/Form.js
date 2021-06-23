@@ -234,7 +234,23 @@ class Form extends React.Component {
             });
           return;
         case "Buy":
-          return;
+          this.props.instance
+            .buy(this.state.ethVal, this.props.address)
+            .then((hash) => {
+              console.log(hash);
+              setTransaction(hash);
+              this.props.fetchBalance();
+              this.props.getNewTransaction();
+            });
+        case "Sell":
+          this.props.instance
+            .sell(this.state.amount, this.props.address)
+            .then((hash) => {
+              console.log(hash);
+              setTransaction(hash);
+              this.props.fetchBalance();
+              this.props.getNewTransaction();
+            });
         case "Increase Allowance":
           this.props.instance
             .increaseAllowance(

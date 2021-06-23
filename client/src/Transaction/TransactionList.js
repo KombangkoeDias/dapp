@@ -83,46 +83,46 @@ const TransactionList = (props) => {
     }
   };
 
-  const mapActionToColor = (action) => {
-    switch (action) {
-      case "Approve":
-        return "pink";
-      case "Burn":
-        return "red";
-      case "Buy":
-        return "lightgreen";
-      case "IncreaseAllowance":
-        return "aqua";
-      case "DecreaseAllowance":
-        return "indigo";
-      case "Mint":
-        return "#AAF0D1";
-      case "Transfer":
-        return "yellow";
-      case "TransferFrom":
-        return "orange";
-    }
-  };
-  const mapActionToName = (action) => {
-    switch (action) {
-      case "approve":
-        return "Approve";
-      case "burn":
-        return "Burn";
-      case "buy":
-        return "Buy";
-      case "increaseAllowance":
-        return "Increase Allowance";
-      case "decreaseAllowance":
-        return "Decrease Allowance";
-      case "mint":
-        return "Mint";
-      case "transfer":
-        return "Transfer";
-      case "transferFrom":
-        return "Transfer From";
-    }
-  };
+  // const mapActionToColor = (action) => {
+  //   switch (action) {
+  //     case "Approve":
+  //       return "pink";
+  //     case "Burn":
+  //       return "red";
+  //     case "Buy":
+  //       return "lightgreen";
+  //     case "IncreaseAllowance":
+  //       return "aqua";
+  //     case "DecreaseAllowance":
+  //       return "indigo";
+  //     case "Mint":
+  //       return "#AAF0D1";
+  //     case "Transfer":
+  //       return "yellow";
+  //     case "TransferFrom":
+  //       return "orange";
+  //   }
+  // };
+  // const mapActionToName = (action) => {
+  //   switch (action) {
+  //     case "approve":
+  //       return "Approve";
+  //     case "burn":
+  //       return "Burn";
+  //     case "buy":
+  //       return "Buy";
+  //     case "increaseAllowance":
+  //       return "Increase Allowance";
+  //     case "decreaseAllowance":
+  //       return "Decrease Allowance";
+  //     case "mint":
+  //       return "Mint";
+  //     case "transfer":
+  //       return "Transfer";
+  //     case "transferFrom":
+  //       return "Transfer From";
+  //   }
+  // };
 
   const setPage = (page) => {
     if (page >= 0 && page < Slices.length) {

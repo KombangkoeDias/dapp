@@ -17,6 +17,8 @@ const TransactionMovingInfo = (props) => {
         return "red";
       case "Buy":
         return "lightgreen";
+      case "Sell":
+        return "darkred";
       case "IncreaseAllowance":
         return "aqua";
       case "DecreaseAllowance":
@@ -56,6 +58,8 @@ const TransactionMovingInfo = (props) => {
       case "burn":
         return <i className="fa fa-fire" style={{ color: "red" }}></i>;
       case "buy":
+        return;
+      case "sell":
         return;
       case "increaseAllowance":
         return <i className="fa fa-chevron-up" style={{ color: "aqua" }}></i>;

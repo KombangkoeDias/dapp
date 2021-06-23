@@ -52,6 +52,15 @@ router.get(
   }
 );
 
+router.get("/exchangeRate", LoadContractMiddleware, async function (req, res) {
+  try {
+    const exchangeRate = await req.instance.exchangeRate();
+    res.json({ status: "success", exchangeRate: exchangeRate });
+  } catch (err) {
+    res.json({ status: "error", err: err });
+  }
+});
+
 router.post("/mint", LoadContractMiddleware, async function (req, res) {
   try {
     const hash = await req.instance.mint(
@@ -187,5 +196,35 @@ router.post(
     }
   }
 );
+
+router.post("/buy", LoadContractMiddleware, async function (req, res) {
+  try {
+    const hash = await req.instance.buy(req.body.ethVal, req.body.from);
+    res.json({
+      status: "success",
+      from: req.body.from,
+      ethVal: req.body.ethVal,
+      Txhash: hash,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({ status: "error", err: err });
+  }
+});
+
+router.post("/sell", LoadContractMiddleware, async function (req, res) {
+  try {
+    const hash = await req.instance.sell(req.body.amount, req.body.from);
+    res.json({
+      status: "success",
+      from: req.body.from,
+      ethVal: req.body.ethVal,
+      Txhash: hash,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({ status: "error", err: err });
+  }
+});
 
 module.exports = router;

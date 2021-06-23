@@ -337,9 +337,84 @@ class Contract {
     }
   }
 
-  async buy(ethVal) {}
+  async buy(ethVal, from) {
+    try {
+      const rate = await this.exchangeRate();
+      console.log(
+        colors.green(
+          "\nbuy requested from " +
+            from +
+            " for " +
+            this.fromWei(ethVal) +
+            " $ETH" +
+            " at rate " +
+            rate +
+            " $WIN per 1 $ETH"
+        )
+      );
+      const res = await this.contract.methods
+        .buy()
+        .send({ from: from, value: ethVal });
+      console.log(
+        colors.green(
+          "successfully bought the coin requested from " +
+            from +
+            " for " +
+            this.fromWei(ethVal) +
+            " $ETH" +
+            " at rate " +
+            rate +
+            " $WIN per 1 $ETH"
+        )
+      );
+      return res.events.Transfer[0].transactionHash;
+    } catch (err) {
+      this.handleError(err);
+    }
+  }
 
-  async sell(amount) {}
+  async sell(amount, from) {
+    try {
+      const rate = await this.exchangeRate();
+      console.log(
+        colors.green(
+          "\nsell requested from " +
+            from +
+            " for " +
+            this.fromWei(amount) +
+            " $WIN" +
+            " at rate " +
+            rate +
+            " $WIN per 1 $ETH"
+        )
+      );
+      const res = await this.contract.methods.sell(amount).send({ from: from });
+      console.log(
+        colors.green(
+          "successfully sold the coin requested from " +
+            from +
+            " for " +
+            this.fromWei(amount) +
+            " $WIN" +
+            " at rate " +
+            rate +
+            " $WIN per 1 $ETH"
+        )
+      );
+      return res.events.Transfer.transactionHash;
+    } catch (err) {
+      this.handleError(err);
+    }
+  }
+
+  async exchangeRate() {
+    try {
+      const exchangeRate = await this.contract.methods.exchangeRate().call();
+      return exchangeRate;
+    } catch (err) {
+      this.handleError(err);
+    }
+  }
 
   estimateGas(owner, receiver, amount) {
     const gas_price = 15;

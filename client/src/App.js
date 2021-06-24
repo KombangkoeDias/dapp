@@ -46,12 +46,7 @@ function App() {
   // connect Metamask
   useEffect(() => {
     //console.log(web3.givenProvider);
-    if (window.web3) {
-      setWeb3js(new web3(window.web3.currentProvider));
-      window.ethereum.enable();
-    } else {
-      setWeb3js(new web3("http://localhost:7545"));
-    }
+    connect();
   }, [window.web3]);
 
   const getNewTransaction = () => {

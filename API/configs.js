@@ -8,7 +8,7 @@ const RPC = "http://localhost:7545";
 
 // const deployedAddress = "0x0000000000000000000000000000000000001234";
 
-var deployedAddress = "0xF91aa1255b2Dcd30b38DF6d6B3c78cd96f8d008d";
+var deployedAddress = "0x8B809085D1691572550dE111578dA62082dCA21D";
 
 // var deployedAddress = "0x99d774A66C2986107A86bc47b721AAC803a1C925";
 

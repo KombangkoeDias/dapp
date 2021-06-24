@@ -24,7 +24,7 @@ class CustomInput extends React.Component {
   };
 
   componentDidMount = () => {
-    this.loadExchangeRate();
+    setInterval(() => this.loadExchangeRate(), 1000);
   };
 
   render() {

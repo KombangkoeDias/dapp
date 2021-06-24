@@ -37,7 +37,7 @@ const Navbar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <a className="navbar-brand ml-2" href="/" style={{ color: "white" }}>
-        Token Control
+        Decentralized Application
       </a>
       <button
         className="navbar-toggler"

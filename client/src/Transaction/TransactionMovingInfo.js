@@ -39,6 +39,8 @@ const TransactionMovingInfo = (props) => {
         return "Burn";
       case "buy":
         return "Buy";
+      case "sell":
+        return "Sell";
       case "increaseAllowance":
         return "Increase Allowance";
       case "decreaseAllowance":
@@ -58,9 +60,16 @@ const TransactionMovingInfo = (props) => {
       case "burn":
         return <i className="fa fa-fire" style={{ color: "red" }}></i>;
       case "buy":
-        return;
+        return (
+          <i
+            className="fa fa-shopping-basket"
+            style={{ color: "lightgreen" }}
+          ></i>
+        );
       case "sell":
-        return;
+        return (
+          <i className="fa fa-money-bill" style={{ color: "darkred" }}></i>
+        );
       case "increaseAllowance":
         return <i className="fa fa-chevron-up" style={{ color: "aqua" }}></i>;
       case "decreaseAllowance":
@@ -104,7 +113,10 @@ const TransactionMovingInfo = (props) => {
           paddingTop: "10px",
           paddingBottom: "10px",
           borderRadius: "10px",
-          backgroundColor: "#5e5e61",
+          //backgroundColor: "#5e5e61",
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1387&q=80')",
+          backgroundSize: "cover",
         }}
       >
         {Object.keys(props.tx).map((field, i) => {

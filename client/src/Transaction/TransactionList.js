@@ -49,6 +49,8 @@ const TransactionList = (props) => {
         return ["Address", "Amount"];
       case "Buy":
         return [];
+      case "Sell":
+        return ["Amount"];
       case "IncreaseAllowance":
         return ["Spender", "Amount"];
       case "DecreaseAllowance":
@@ -70,6 +72,8 @@ const TransactionList = (props) => {
         return ["address", "uint256"];
       case "Buy":
         return [];
+      case "Sell":
+        return ["uint256"];
       case "IncreaseAllowance":
         return ["address", "uint256"];
       case "DecreaseAllowance":

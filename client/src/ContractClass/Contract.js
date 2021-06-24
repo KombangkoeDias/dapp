@@ -384,7 +384,7 @@ export default class Contract {
             " $WIN per 1 $ETH"
         )
       );
-      const res = await this.contract.methods.buy(amount).send({ from: from });
+      const res = await this.contract.methods.sell(amount).send({ from: from });
       console.log(
         colors.green(
           "successfully bought the coin requested from " +

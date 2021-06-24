@@ -7,12 +7,14 @@ import Navbar from "./Components/Navbar/Navbar";
 import Select from "react-select";
 import web3 from "web3";
 import Contract from "./ContractClass/Contract";
-import WINcoin from "./WINcoin/Wincoin";
+import WINcoin from "./WINcoin/WincoinUp";
 import Form from "./Components/Form";
 import $ from "jquery";
 import getTransactionsByAccount from "./Transaction/TransactionQuery";
 import TransactionList from "./Transaction/TransactionList";
 import { notification } from "antd";
+import contractAddress from "./config/contractAddress";
+import chainid_kovan from "./config/chainid";
 
 function App() {
   const [action, setAction] = useState("Transfer");
@@ -30,6 +32,7 @@ function App() {
     { value: "Mint", label: "Mint" },
     { value: "Transfer", label: "Transfer" },
     { value: "Transfer From", label: "Transfer From" },
+    { value: "Sell", label: "Sell" },
   ]);
   const [chainid, setChainid] = useState(null);
   const [height, setHeight] = useState($(document).height());
@@ -79,7 +82,7 @@ function App() {
   }, [instance, currAccount]);
 
   useEffect(() => {
-    if (currAccount !== null && chainid === 5777) {
+    if (currAccount !== null && chainid === chainid_kovan) {
       loadTransaction();
     }
   }, [currAccount, chainid]);
@@ -98,7 +101,7 @@ function App() {
     setInterval(() => {
       if (Web3js !== null) {
         Web3js.eth.net.getId().then((chainid) => {
-          if (chainid === 5777) {
+          if (chainid === chainid_kovan) {
             // local testnet 5777
             Web3js.eth.getAccounts((error, result) => {
               if (error) {
@@ -187,7 +190,7 @@ function App() {
         const the_instance = new Contract(
           {
             abi: WINcoin.abi,
-            address: "0x6400bE5392B82Aabd9845FBDB37C28A8703A553D",
+            address: contractAddress,
           },
           Web3js
         );
@@ -253,7 +256,10 @@ function App() {
   return (
     <div
       style={{
-        backgroundColor: "#1c1c1c",
+        //backgroundColor: "#1c1c1c",
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1496065187959-7f07b8353c55?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')",
+        backgroundSize: "cover",
         height: "100vh",
         overflowY: "auto",
         overflowX: "hidden",

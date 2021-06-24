@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const LoadContractMiddleware = require("../instance");
+const { setDeployedAddress } = require("../configs");
 
 router.get("/instance", LoadContractMiddleware, function (req, res) {
   res.json({ instance: req.instance.contract });
@@ -225,6 +226,12 @@ router.post("/sell", LoadContractMiddleware, async function (req, res) {
     console.log(err);
     res.json({ status: "error", err: err });
   }
+});
+
+router.post("/deploy", async (req, res) => {
+  address = "0x0000000000000000000000000000000000001234";
+  setDeployedAddress(address);
+  res.json({ status: "success", address: address });
 });
 
 module.exports = router;

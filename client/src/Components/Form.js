@@ -4,46 +4,110 @@ import serverURL from "../config/serverURL";
 import styles from "./Form.module.css";
 import $ from "jquery";
 
-const customInput = (props) => {
-  const createSetStateObject = (e) => {
+class CustomInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      exchangeRate: null,
+    };
+  }
+
+  loadExchangeRate = async () => {
+    const res = await axios.get(serverURL + "/contract/exchangeRate");
+    this.setState({ exchangeRate: res.data.exchangeRate });
+  };
+
+  createSetStateObject = (e) => {
     const obj = {};
-    obj[props.type] = e.target.value;
+    obj[this.props.type] = e.target.value;
     return obj;
   };
 
-  return (
-    <div
-      className="row mt-3"
-      style={{
-        color: "white",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        className="col"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        <label htmlFor={props.type} className="mr-3 mt-2">
-          {props.type}
-        </label>
-        <input
-          id={props.type}
-          value={props.value}
-          onChange={(e) => props.component.setState(createSetStateObject(e))}
-          placeholder={props.type}
+  componentDidMount = () => {
+    this.loadExchangeRate();
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <div
+          className="row mt-3"
           style={{
-            width: "50%",
-            backgroundColor: "#5e5e61",
             color: "white",
-            paddingLeft: "10px",
+            width: "100vw",
+            display: "flex",
+            justifyContent: "center",
           }}
-        />
-      </div>
-    </div>
-  );
-};
+        >
+          <div
+            className="col"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <label htmlFor={this.props.type} className="mr-3 mt-2">
+              {this.props.type}
+            </label>
+            <input
+              id={this.props.type}
+              value={this.props.value}
+              onChange={(e) =>
+                this.props.component.setState(this.createSetStateObject(e))
+              }
+              placeholder={this.props.type}
+              style={{
+                width: "50%",
+                backgroundColor: "#5e5e61",
+                color: "white",
+                paddingLeft: "10px",
+              }}
+            />
+          </div>
+        </div>
+        <div
+          className="row mt-3"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          {(this.props.action === "Buy" || this.props.action === "Sell") && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                color: "white",
+              }}
+            >
+              {this.state.exchangeRate !== null
+                ? "The exchange rate is " +
+                  this.state.exchangeRate +
+                  " $WIN per 1 $ETH"
+                : "loading"}
+              {this.props.value !== "" &&
+              this.props.action === "Buy" &&
+              this.exchangeRate !== null
+                ? ", " +
+                  parseFloat(this.props.value) +
+                  " $ETH will get you about " +
+                  Math.floor(
+                    this.state.exchangeRate * parseFloat(this.props.value)
+                  ) +
+                  " $WIN"
+                : ""}
+              {this.props.value !== "" &&
+              this.props.action === "Sell" &&
+              this.exchangeRate !== null
+                ? ", " +
+                  parseFloat(this.props.value) +
+                  " $WIN will get you about " +
+                  (
+                    parseFloat(this.props.value) / this.state.exchangeRate
+                  ).toFixed(10) +
+                  " $ETH"
+                : ""}
+            </div>
+          )}
+        </div>
+      </React.Fragment>
+    );
+  }
+}
 
 class Form extends React.Component {
   constructor(props) {
@@ -59,6 +123,7 @@ class Form extends React.Component {
       queryValue: "",
       Txhash: "",
       error: null,
+      ETH: "",
     };
   }
 
@@ -73,7 +138,9 @@ class Form extends React.Component {
       case "Burn":
         return ["Address", "Amount"];
       case "Buy":
-        return [];
+        return ["ETH"];
+      case "Sell":
+        return ["Amount"];
       case "Increase Allowance":
         return ["Spender", "Amount"];
       case "Decrease Allowance":
@@ -98,6 +165,8 @@ class Form extends React.Component {
       case "Burn":
         return "send";
       case "Buy":
+        return "send";
+      case "Sell":
         return "send";
       case "Increase Allowance":
         return "send";
@@ -234,23 +303,30 @@ class Form extends React.Component {
             });
           return;
         case "Buy":
+          //console.log(this.state.ETH);
+          //console.log(this.props.instance.buy);
           this.props.instance
-            .buy(this.state.ethVal, this.props.address)
+            .buy(this.props.instance.toWei(this.state.ETH), this.props.address)
             .then((hash) => {
               console.log(hash);
               setTransaction(hash);
               this.props.fetchBalance();
               this.props.getNewTransaction();
             });
+          return;
         case "Sell":
           this.props.instance
-            .sell(this.state.amount, this.props.address)
+            .sell(
+              this.props.instance.toWei(this.state.Amount),
+              this.props.address
+            )
             .then((hash) => {
               console.log(hash);
               setTransaction(hash);
               this.props.fetchBalance();
               this.props.getNewTransaction();
             });
+          return;
         case "Increase Allowance":
           this.props.instance
             .increaseAllowance(
@@ -359,11 +435,14 @@ class Form extends React.Component {
       <React.Fragment>
         {Inputs.map((type) => (
           <div key={type}>
-            {customInput({
-              type: type,
-              value: this.state[type],
-              component: this,
-            })}
+            {
+              <CustomInput
+                type={type}
+                action={this.props.action}
+                value={this.state[type]}
+                component={this}
+              />
+            }
           </div>
         ))}
         {this.mapActionToQueryType(this.props.action) === "send" && (

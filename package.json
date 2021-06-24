@@ -1,6 +1,11 @@
 {
   "scripts": {
-    "start": "concurrently --kill-others \"cd client && yarn start\" \"cd API && yarn start\""
+    "start": "concurrently --kill-others \"cd client && yarn start\" \"cd API && yarn start\"",
+    "install-global": "yarn",
+    "install-client": "cd client && yarn",
+    "install-api": "cd API && yarn",
+    "install-api-contract": "cd API/Functions && yarn",
+    "install": "yarn install-global && yarn install-client && yarn install-api && yarn install-api-contract"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.1.0",

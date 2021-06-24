@@ -3,6 +3,7 @@ import styles from "./Navbar.module.css";
 import axios from "axios";
 import serverURL from "../../config/serverURL";
 import { notification } from "antd";
+import chainid_kovan from "../../config/chainid";
 
 const Navbar = (props) => {
   const [address, setAddress] = useState(null);
@@ -114,7 +115,7 @@ const Navbar = (props) => {
               {props.address !== null && props.address}
               {props.address === null && props.chainid === null
                 ? "connect"
-                : props.chainid === 5777
+                : props.chainid === chainid_kovan
                 ? "Loading..."
                 : "wrong chain"}
             </div>
@@ -128,17 +129,19 @@ const Navbar = (props) => {
               }
             >
               {(info === null || props.balance === null) &&
-                props.chainid === 5777 &&
+                props.chainid === chainid_kovan &&
                 "Loading..."}
               {info !== null &&
                 props.balance !== null &&
-                props.chainid === 5777 && (
+                props.chainid === chainid_kovan && (
                   <>
                     {" "}
                     {props.balance} ${info.symbol}
                   </>
                 )}
-              {info !== null && props.chainid !== 5777 && <> ${info.symbol}</>}
+              {info !== null && props.chainid !== chainid_kovan && (
+                <> ${info.symbol}</>
+              )}
             </div>
           </li>
         </ul>

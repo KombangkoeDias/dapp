@@ -18,7 +18,7 @@ async function createContract(abi, bytecode, account) {
   });
   await contract.deployContract();
   deployedAddress = contract.contract.options.address;
-  return contract;
+  return deployedAddress;
 }
 
 async function loadContract(abi, address) {

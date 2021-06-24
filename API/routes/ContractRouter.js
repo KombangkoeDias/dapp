@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const LoadContractMiddleware = require("../instance");
 const { setDeployedAddress } = require("../configs");
+const WincoinUp = require("../Functions/Contracts/WincoinUp");
+const Contracts = require("../Functions/Functions/Contracts");
 
 router.get("/instance", LoadContractMiddleware, function (req, res) {
   res.json({ instance: req.instance.contract });
@@ -229,9 +231,23 @@ router.post("/sell", LoadContractMiddleware, async function (req, res) {
 });
 
 router.post("/deploy", async (req, res) => {
-  address = "0x0000000000000000000000000000000000001234";
-  setDeployedAddress(address);
-  res.json({ status: "success", address: address });
+  const deployedAddress = await createContract(
+    WincoinUp.abi,
+    WincoinUp.bytecode,
+    req.body.account
+  );
+  res.json({ status: "success", address: deployedAddress });
 });
+
+async function createContract(abi, bytecode, account) {
+  let contract = new Contracts.Contract({
+    abi: abi,
+    bytecode: bytecode,
+    account: account,
+  });
+  await contract.deployContract();
+  deployedAddress = contract.contract.options.address;
+  return deployedAddress;
+}
 
 module.exports = router;
